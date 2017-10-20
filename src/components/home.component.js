@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import BookShelf from './book-shelf.component';
 
 const shelves = [
-  { title: 'Currently Reading' },
-  { title: 'Want to Read' },
-  { title: 'Read' }
+  { title: 'Currently Reading', statusName: 'currentlyReading' },
+  { title: 'Want to Read', statusName: 'wantToRead' },
+  { title: 'Read', statusName: 'read' }
 ];
 
 class Home extends Component {
   render() {
+    const { books } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -20,6 +21,7 @@ class Home extends Component {
             <BookShelf
               key={shelf.title}
               title={shelf.title}
+              books={books.filter( book => book.shelf === shelf.statusName )}
             />
           ))}
         </div>

@@ -10,7 +10,7 @@ const shelves = [
 
 class Home extends Component {
   render() {
-    const { books } = this.props;
+    const { books, updateShelf } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -22,6 +22,7 @@ class Home extends Component {
               key={shelf.title}
               title={shelf.title}
               books={books.filter( book => book.shelf === shelf.statusName )}
+              updateShelf={updateShelf}
             />
           ))}
         </div>

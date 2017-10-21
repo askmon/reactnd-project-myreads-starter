@@ -3,6 +3,10 @@ import '../app.css'
 
 class Book extends Component {
   
+  updateShelf = (event) => {
+    this.props.updateShelf(this.props.book.id, event.target.value);
+  };
+
   render() {
     const { book } = this.props;  
     
@@ -16,7 +20,7 @@ class Book extends Component {
           >
         </div>
         <div className="book-shelf-changer">
-          <select>
+          <select defaultValue={book.shelf} onChange={this.updateShelf}>
             <option value="none" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>

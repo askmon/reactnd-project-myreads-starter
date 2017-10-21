@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
 import * as booksApi from './books.api'
 import './app.css'
@@ -6,7 +6,7 @@ import './app.css'
 import Home from './components/home.component'
 import Search from './components/search.component'
 
-class App extends React.Component {
+class App extends Component {
 
   state = {
     allBooks: [],
@@ -19,11 +19,15 @@ class App extends React.Component {
     });
   }
 
-  async updateShelf(book,newShelf) {
-    booksApi.update(book,newShelf);
+  updateShelf = async (bookId, newShelf) => {
+    await booksApi.update({ id: bookId }, newShelf);
 
-    this.setState((prevState) => {
-        return prevState;
+    this.setState((previousState) => {
+      const bookToUpdate = previousState.allBooks.find((book) => {
+        return book.id === bookId;
+      });
+      bookToUpdate.shelf = newShelf;
+      return previousState;
     });
   }
 

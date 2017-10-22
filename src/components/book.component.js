@@ -10,6 +10,8 @@ class Book extends Component {
   render() {
     const { book } = this.props;
     
+    // For some reason the search endpoint is not returning the shelf sometimes.
+    // The following condition is used to add a default value to the book shelf
     if (!book.shelf) {
       book.shelf = 'none';
     }

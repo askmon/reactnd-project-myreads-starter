@@ -42,6 +42,7 @@ class App extends Component {
         )}/>
         <Route path="/search" render={() => (
           <Search
+            updateShelf={this.updateShelf}
           />
         )}/>
       </div>

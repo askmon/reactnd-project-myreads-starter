@@ -14,20 +14,20 @@ class Search extends Component {
 
   async handleSearch(searchString, myBooks) {
     if (searchString.length > 0) {
-      let searchBooks = await booksApi.search(searchString)
-      searchBooks = this.updateBookShelves(searchBooks, myBooks)
-      this.setState({ searchBooks, searchString })
+      let searchBooks = await booksApi.search(searchString);
+      searchBooks = this.updateBookShelves(searchBooks, myBooks);
+      this.setState({ searchBooks, searchString });
     }
     else {
-      this.setState({ searchBooks: null, searchString })
+      this.setState({ searchBooks: null, searchString });
     }
   }
 
   updateBookShelves(searchBooks, myBooks) {
     return searchBooks.map((searchBook) => {
-      const book = myBooks.find((myBook) => myBook.id === searchBook.id)
-      searchBook.shelf = book ? book.shelf : 'none'
-      return searchBook
+      const book = myBooks.find((myBook) => myBook.id === searchBook.id);
+      searchBook.shelf = book ? book.shelf : 'none';
+      return searchBook;
     })
   }
 

@@ -29,10 +29,7 @@ class App extends Component {
       if (bookToUpdate) {
         bookToUpdate.shelf = newShelf;
       } else {
-        // done in order to update the state
-        const allBooks = previousState.allBook.slice()
-        allBooks.push(book);
-        previousState.allBooks = allBooks;
+        previousState.allBooks.push(book);
       }
       return previousState;
     });

@@ -1,23 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import '../app.css'
 
-class Book extends Component {
+const Book  = ({book, updateShelf}) => {
   
-  updateShelf = (event) => {
-    this.props.updateShelf(this.props.book, event.target.value);
+  const processUpdateShelfEvent = (event) => {
+    updateShelf(book, event.target.value);
   };
-
-  render() {
-    const { book } = this.props;
-    
-    // For some reason the search endpoint is not returning the shelf sometimes.
-    // The following condition is used to add a default value to the book shelf
-    if (!book.shelf) {
-      book.shelf = 'none';
-    }
-    
-    return (
-      <div className="book">
+  
+  return (
+    <div className="book">
       <div className="book-top">
         <div className="book-cover"
           style={{ width: 128,
@@ -28,7 +19,7 @@ class Book extends Component {
         <div className="book-shelf-changer">
           <select 
             defaultValue={book.shelf}
-            onChange={this.updateShelf}>
+            onChange={processUpdateShelfEvent}>
             <option value="none" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
@@ -40,8 +31,7 @@ class Book extends Component {
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
     </div>
-    );
-  }
+  )
 
 }
 

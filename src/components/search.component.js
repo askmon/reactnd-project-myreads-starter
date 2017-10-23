@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import { Debounce } from 'react-throttle'
 
 import Book from './book.component'
 import * as booksApi from '../books.api'
@@ -11,9 +12,10 @@ class Search extends Component {
     searchString: ""
   };
 
-  async handleSearch(searchString) {
+  async handleSearch(searchString, myBooks) {
     if (searchString.length > 0) {
-      const searchBooks = await booksApi.search(searchString)
+      let searchBooks = await booksApi.search(searchString)
+      searchBooks = this.updateBookShelves(searchBooks, myBooks)
       this.setState({ searchBooks, searchString })
     }
     else {
@@ -21,26 +23,28 @@ class Search extends Component {
     }
   }
 
+  updateBookShelves(searchBooks, myBooks) {
+    return searchBooks.map((searchBook) => {
+      const book = myBooks.find((myBook) => myBook.id === searchBook.id)
+      searchBook.shelf = book ? book.shelf : 'none'
+      return searchBook
+    })
+  }
+
   render() {
-    const { updateShelf } = this.props;
+    const { books, updateShelf } = this.props;
     
     return (
       <div className="search-books">
         <div className="search-books-bar">
         <Link className="close-search" to="/" />
           <div className="search-books-input-wrapper">
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
-            <input type="text"
-              placeholder="Search by title or author"
-              onChange={(event) => this.handleSearch(event.target.value)}
-            />
-
+            <Debounce time="400" handler="onChange">
+              <input type="text"
+                placeholder="Search by title or author"
+                onChange={(event) => this.handleSearch(event.target.value, books)}
+              />
+            </Debounce>
           </div>
         </div>
         <div className="search-books-results">

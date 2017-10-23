@@ -19,14 +19,21 @@ class App extends Component {
     });
   }
 
-  updateShelf = async (bookId, newShelf) => {
-    await booksApi.update({ id: bookId }, newShelf);
+  updateShelf = async (book, newShelf) => {
+    await booksApi.update({ id: book.id }, newShelf);
 
     this.setState((previousState) => {
-      const bookToUpdate = previousState.allBooks.find((book) => {
-        return book.id === bookId;
+      const bookToUpdate = previousState.allBooks.find((existingBook) => {
+        return existingBook.id === book.id;
       });
-      bookToUpdate.shelf = newShelf;
+      if (bookToUpdate) {
+        bookToUpdate.shelf = newShelf;
+      } else {
+        // done in order to update the state
+        const allBooks = previousState.allBook.slice()
+        allBooks.push(book);
+        previousState.allBooks = allBooks;
+      }
       return previousState;
     });
   }
@@ -42,6 +49,7 @@ class App extends Component {
         )}/>
         <Route path="/search" render={() => (
           <Search
+            books={this.state.allBooks}
             updateShelf={this.updateShelf}
           />
         )}/>

@@ -4,7 +4,7 @@ import '../app.css'
 class Book extends Component {
   
   updateShelf = (event) => {
-    this.props.updateShelf(this.props.book.id, event.target.value);
+    this.props.updateShelf(this.props.book, event.target.value);
   };
 
   render() {

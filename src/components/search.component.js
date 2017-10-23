@@ -7,12 +7,18 @@ import * as booksApi from '../books.api'
 class Search extends Component {
 
   state = {
-    searchBooks: []
+    searchBooks: null,
+    searchString: ""
   };
 
   async handleSearch(searchString) {
-    const searchBooks = await booksApi.search(searchString)
-    this.setState({ searchBooks })
+    if (searchString.length > 0) {
+      const searchBooks = await booksApi.search(searchString)
+      this.setState({ searchBooks, searchString })
+    }
+    else {
+      this.setState({ searchBooks: null, searchString })
+    }
   }
 
   render() {
@@ -38,16 +44,23 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-            { this.state.searchBooks.map((book) => (
-              <li key={book.id}>
-                  <Book 
-                    book={book}
-                    updateShelf={updateShelf}
-                  />
-              </li>
-            ))}
-          </ol>
+          {this.state.searchString.length > 0 && !this.state.searchBooks.length &&
+            <div>
+              <p>No results found for "{this.state.searchString}"</p>
+            </div>
+          }
+          {this.state.searchBooks && this.state.searchBooks.length &&
+            <ol className="books-grid">
+              { this.state.searchBooks.map((book) => (
+                <li key={book.id}>
+                    <Book 
+                      book={book}
+                      updateShelf={updateShelf}
+                    />
+                </li> 
+              ))}                            
+              </ol>
+          }                  
         </div>
       </div>
     );

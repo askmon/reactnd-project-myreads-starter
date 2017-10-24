@@ -49,7 +49,7 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          {this.state.searchString.length > 0 && !this.state.searchBooks.length &&
+          {this.state.searchString.length > 0 && !this.state.searchBooks &&
             <div>
               <p>No results found for "{this.state.searchString}"</p>
             </div>

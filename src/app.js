@@ -29,6 +29,7 @@ class App extends Component {
       if (bookToUpdate) {
         bookToUpdate.shelf = newShelf;
       } else {
+        book.shelf = newShelf;
         previousState.allBooks.push(book);
       }
       return previousState;
